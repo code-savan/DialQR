@@ -1,11 +1,11 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { PhoneAnalysis } from "../types";
 
-// The API_KEY is injected by Vite's define config during build
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 export const analyzePhoneNumber = async (number: string): Promise<PhoneAnalysis> => {
   try {
+    // Create instance inside the call to ensure the latest API_KEY from environment is used
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+    
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
       contents: `Analyze this phone number and provide feedback: ${number}. Determine if it looks like a valid international or local format and identify the likely country.`,
@@ -24,7 +24,6 @@ export const analyzePhoneNumber = async (number: string): Promise<PhoneAnalysis>
       }
     });
 
-    // Handle string | undefined by providing a default empty string for the compiler
     const responseText = response.text ?? "";
     
     if (responseText.length === 0) {
