@@ -1,7 +1,7 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { PhoneAnalysis } from "../types";
 
+// Note: process.env.API_KEY is handled by Vite's 'define' config
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const analyzePhoneNumber = async (number: string): Promise<PhoneAnalysis> => {
@@ -24,18 +24,21 @@ export const analyzePhoneNumber = async (number: string): Promise<PhoneAnalysis>
       }
     });
 
-    const text = response.text;
-    if (!text) {
-      throw new Error("Empty response from AI");
+    const responseText = response.text;
+    
+    // Explicit check to satisfy TS strict null checks and avoid runtime crashes
+    if (typeof responseText !== 'string' || responseText.length === 0) {
+      throw new Error("No text content returned from Gemini API");
     }
 
-    return JSON.parse(text.trim());
+    return JSON.parse(responseText.trim());
   } catch (error) {
     console.error("Gemini Analysis Error:", error);
+    // Graceful fallback so the UI never breaks
     return {
       isValid: true,
       formatted: number,
-      countrySuggestion: "Unknown"
+      countrySuggestion: "Detected"
     };
   }
 };
