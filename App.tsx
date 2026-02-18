@@ -16,7 +16,6 @@ const App: React.FC = () => {
     if (!phoneNumber.trim()) return;
 
     setIsAnalyzing(true);
-    // Use Gemini to provide a nice "pro" feel for formatting/validation
     const result = await analyzePhoneNumber(phoneNumber);
     setAnalysis(result);
     setGeneratedNumber(result.formatted || phoneNumber);
@@ -31,7 +30,6 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
-      {/* Navigation / Header */}
       <nav className="bg-white border-b border-slate-200 py-4 px-6 sticky top-0 z-10 shadow-sm">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -51,7 +49,6 @@ const App: React.FC = () => {
       </nav>
 
       <main className="flex-1 max-w-4xl mx-auto w-full p-6 md:p-12 flex flex-col items-center">
-        {/* Intro Section */}
         <div className="text-center mb-10">
           <h2 className="text-3xl font-extrabold text-slate-900 mb-3">
             Instant Call QR Generator
@@ -112,7 +109,6 @@ const App: React.FC = () => {
           </div>
         ) : (
           <div className="w-full max-w-2xl grid md:grid-cols-2 gap-8 animate-in fade-in zoom-in duration-500">
-            {/* QR Display */}
             <div className="bg-white rounded-3xl shadow-xl border border-slate-200 p-8 flex flex-col items-center justify-center space-y-6 text-center">
               <div className="p-6 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
                 <QRCodeSVG
@@ -128,7 +124,6 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            {/* Analysis & Details */}
             <div className="flex flex-col justify-center space-y-6">
               <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
                 <div className="flex items-center gap-3 mb-4">
@@ -170,7 +165,6 @@ const App: React.FC = () => {
           </div>
         )}
 
-        {/* Feature Highlights */}
         <div className="grid md:grid-cols-3 gap-6 w-full mt-20">
           <FeatureCard 
             icon={<Phone className="text-blue-600" />}
@@ -197,13 +191,7 @@ const App: React.FC = () => {
   );
 };
 
-interface FeatureCardProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}
-
-const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description }) => (
+const FeatureCard: React.FC<{ icon: React.ReactNode; title: string; description: string }> = ({ icon, title, description }) => (
   <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-center text-center">
     <div className="mb-4 p-3 bg-slate-50 rounded-full">{icon}</div>
     <h4 className="font-bold text-slate-800 mb-2">{title}</h4>
