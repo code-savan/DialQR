@@ -24,7 +24,12 @@ export const analyzePhoneNumber = async (number: string): Promise<PhoneAnalysis>
       }
     });
 
-    return JSON.parse(response.text.trim());
+    const text = response.text;
+    if (!text) {
+      throw new Error("Empty response from AI");
+    }
+
+    return JSON.parse(text.trim());
   } catch (error) {
     console.error("Gemini Analysis Error:", error);
     return {
