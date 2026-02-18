@@ -1,0 +1,5 @@
+{
+  "name": "DialQR - Instant Phone QR Generator",
+  "description": "A sleek, professional utility to convert any phone number into a scannable QR code that triggers a direct call on mobile devices.",
+  "requestFramePermissions": []
+}
